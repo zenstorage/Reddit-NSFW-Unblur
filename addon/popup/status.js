@@ -5,19 +5,17 @@ const toggleNsfw = document.getElementById('toggle-nsfw');
 const toggleSpoiler = document.getElementById('toggle-spoiler');
 const form = document.getElementById('form');
 
-// Function to get state
-function getState() {
-    const items = browser.storage.local.get('items');
-    items.then(result => {
-        if (result.length === undefined) return;
-        toggle.checked = result.items.state;
-        statusElement.textContent = result.items.state ? 'ON' : 'OFF';
+browser.storage.local.get('items', result => {
+    const state = result.items.state;
+    const nsfw = result.items.nsfw;
+    const spoiler = result.items.spoiler;
 
-        toggleNsfw.checked = result.items.nsfw;
-        toggleSpoiler.checked = result.items.spoiler;
-    });
-}
-getState();
+    toggle.checked = state;
+    statusElement.textContent = state ? 'ON' : 'OFF';
+
+    toggleNsfw.checked = nsfw;
+    toggleSpoiler.checked = spoiler;
+});
 
 // Listener for toggle
 form.addEventListener('change', e => {

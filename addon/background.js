@@ -1,3 +1,11 @@
+browser.storage.local.set({
+    items: {
+        state: true,
+        nsfw: true,
+        spoiler: false,
+    },
+});
+
 // Unblock NSFW
 function unblockNSFW(details) {
     browser.tabs.executeScript({
@@ -14,10 +22,9 @@ const unblockNSFWFilter = { urls: ['https://www.redditstatic.com/*xpromo-nsfw-bl
 browser.webRequest.onBeforeRequest.addListener(unblockNSFW, unblockNSFWFilter, ['blocking']);
 
 function checkState(changes) {
-    const items = changes.items;
-    if (!items) return;
-    if (items.newValue.state) browser.webRequest.onBeforeRequest.addListener(unblockNSFW, unblockNSFWFilter, ['blocking']);
-    else browser.webRequest.onBeforeRequest.removeListener(unblockNSFW);
+    const state = changes.items.newValue.state || true;
+    if (state) browser.webRequest.onBeforeRequest.addListener(unblockNSFW, unblockNSFWFilter, ['blocking']);
+    else if (!state) browser.webRequest.onBeforeRequest.removeListener(unblockNSFW);
 }
 
 browser.storage.onChanged.addListener(checkState);

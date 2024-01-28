@@ -1,10 +1,17 @@
-let nsfw = true;
-let spoiler = false;
+let nsfw;
+let spoiler;
 
 // Get NSFW and Spoiler state
 browser.storage.local.get('items', result => {
     nsfw = result.items.nsfw;
     spoiler = result.items.spoiler;
+
+    // Start observing
+    observer.observe(document, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+    });
 });
 
 // Reveal NSFW |func (only for xpromo-nsfw-blocking-container and shreddit-blurred-container)
@@ -66,10 +73,3 @@ function checkIfBlurred(mutations) {
 
 // Mutation observer for detecting xpromo-nsfw-blocking-container or shreddit-blurred-container
 const observer = new MutationObserver(checkIfBlurred);
-
-// Start observing
-observer.observe(document, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-});
