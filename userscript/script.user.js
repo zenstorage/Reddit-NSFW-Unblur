@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name            Shreddit NSFW Unblur
+// @name            Reddit NSFW Unblur
 // @namespace       https://greasyfork.org/users/821661
 // @match           https://www.reddit.com/*
 // @match           https://sh.reddit.com/*
@@ -9,6 +9,7 @@
 // @author          hdyzen
 // @description     Unblur nsfw in Shreddit
 // @license         MIT
+// @homepage        https://github.com/zenstorage/Reddit-NSFW-Unblur
 // ==/UserScript==
 'use strict';
 
