@@ -1,30 +1,48 @@
-browser.storage.local.set({
-    items: {
-        state: true,
-        nsfw: true,
-        spoiler: false,
-    },
-});
+// Filter for the webRequest.onBeforeRequest event
+const unblockNSFWFilter = { urls: ['<all_urls>'], types: ['script'] };
 
 // Unblock NSFW
 function unblockNSFW(details) {
-    browser.tabs.executeScript({
-        file: '/content_scripts/reveal.js',
-        runAt: 'document_start',
-    });
-    return { cancel: true };
+    if (details.url.includes('shell')) {
+        browser.tabs.executeScript(details.tabId, {
+            file: '/content_scripts/reveal.js',
+            runAt: 'document_start',
+        });
+    }
+    if (details.url.includes('xpromo-nsfw-blocking-modal-desktop')) {
+        return { cancel: true };
+    }
 }
 
-// Filter for the webRequest.onBeforeRequest event
-const unblockNSFWFilter = { urls: ['https://www.redditstatic.com/*xpromo-nsfw-blocking-modal-desktop*'], types: ['script'] };
+// Request toggle
+function requestToggle(condition) {
+    if (condition) {
+        return browser.webRequest.onBeforeRequest.addListener(unblockNSFW, unblockNSFWFilter, ['blocking']);
+    }
+    return browser.webRequest.onBeforeRequest.removeListener(unblockNSFW);
+}
+
+// Call requestToggle
+requestToggle();
+
+// Check state and toggle
+function checkState(changes) {
+    console.log(changes);
+    const { status = {} } = changes;
+    const { newValue, oldValue } = status;
+    const hasListener = browser.webRequest.onBeforeRequest.hasListener(unblockNSFW);
+    console.log(hasListener);
+    requestToggle(newValue && !hasListener);
+}
 
 // Listen for webRequest.onBeforeRequest events
 browser.webRequest.onBeforeRequest.addListener(unblockNSFW, unblockNSFWFilter, ['blocking']);
 
-function checkState(changes) {
-    const state = changes.items.newValue.state || true;
-    if (state) browser.webRequest.onBeforeRequest.addListener(unblockNSFW, unblockNSFWFilter, ['blocking']);
-    else if (!state) browser.webRequest.onBeforeRequest.removeListener(unblockNSFW);
-}
-
+// Listen for storage changes
 browser.storage.onChanged.addListener(checkState);
+
+// Get state
+browser.storage.local.get('status', result => {
+    const { status = true } = result;
+    requestToggle(status);
+});

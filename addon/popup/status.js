@@ -1,30 +1,27 @@
-// Elements
-const toggle = document.getElementById('toggle');
-const statusElement = document.getElementById('status');
-const toggleNsfw = document.getElementById('toggle-nsfw');
-const toggleSpoiler = document.getElementById('toggle-spoiler');
-const form = document.getElementById('form');
+const toggle = document.getElementById('toggle'),
+    statusElement = document.getElementById('status'),
+    toggleNsfw = document.getElementById('toggle-nsfw'),
+    toggleSpoiler = document.getElementById('toggle-spoiler'),
+    form = document.getElementById('selected-ops');
 
-browser.storage.local.get('items', result => {
-    const state = result.items.state;
-    const nsfw = result.items.nsfw;
-    const spoiler = result.items.spoiler;
+browser.storage.local.get('status', result => {
+    const { status = true } = result;
 
-    toggle.checked = state;
-    statusElement.textContent = state ? 'ON' : 'OFF';
+    toggle.checked = status;
+});
+
+browser.storage.local.get('switchs', result => {
+    const { switchs = {} } = result;
+    const { nsfw = true, spoiler = false } = switchs;
 
     toggleNsfw.checked = nsfw;
     toggleSpoiler.checked = spoiler;
 });
 
-// Listener for toggle
+toggle.addEventListener('click', e => {
+    browser.storage.local.set({ status: toggle.checked });
+});
+
 form.addEventListener('change', e => {
-    browser.storage.local.set({
-        items: {
-            state: toggle.checked,
-            nsfw: toggleNsfw.checked,
-            spoiler: toggleSpoiler.checked,
-        },
-    });
-    statusElement.textContent = toggle.checked ? 'ON' : 'OFF';
+    browser.storage.local.set({ switchs: { nsfw: toggleNsfw.checked, spoiler: toggleSpoiler.checked } });
 });

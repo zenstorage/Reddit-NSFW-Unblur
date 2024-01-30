@@ -12,6 +12,9 @@ body {
     transition: 0.3s ease;
     &:has(input#toggle:not(:checked)) {
         color: #bdafa5;
+        & #status::before {
+            content: 'OFF';
+        }
         & #selected-ops input:checked + .slider {
             background-color: hsl(15, 61%, 59%);
             &::before {
@@ -26,6 +29,9 @@ body {
     width: 180px;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.03);
+    &::before {
+        content: 'ON';
+    }
 }
 
 #container-toggle {
