@@ -22,9 +22,6 @@ function requestToggle(condition) {
     return browser.webRequest.onBeforeRequest.removeListener(unblockNSFW);
 }
 
-// Call requestToggle
-requestToggle();
-
 // Check state and toggle
 function checkState(changes) {
     console.log(changes);
