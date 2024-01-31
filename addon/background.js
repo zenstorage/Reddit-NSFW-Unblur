@@ -16,10 +16,11 @@ function unblockNSFW(details) {
 
 // Request toggle
 function requestToggle(condition) {
-    if (condition) {
+    if (condition === true) {
         return browser.webRequest.onBeforeRequest.addListener(unblockNSFW, unblockNSFWFilter, ['blocking']);
+    } else if (condition === false) {
+        return browser.webRequest.onBeforeRequest.removeListener(unblockNSFW);
     }
-    return browser.webRequest.onBeforeRequest.removeListener(unblockNSFW);
 }
 
 // Check state and toggle
@@ -28,7 +29,6 @@ function checkState(changes) {
     const { status = {} } = changes;
     const { newValue, oldValue } = status;
     const hasListener = browser.webRequest.onBeforeRequest.hasListener(unblockNSFW);
-    console.log(hasListener);
     requestToggle(newValue && !hasListener);
 }
 
