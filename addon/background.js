@@ -24,11 +24,9 @@ function requestToggle(condition) {
 
 // Check state and toggle
 function checkState(changes) {
-    console.log(changes);
     const { status = {} } = changes;
     const { newValue, oldValue } = status;
     const hasListener = browser.webRequest.onBeforeRequest.hasListener(unblockNSFW);
-    console.log(hasListener);
     requestToggle(newValue && !hasListener);
 }
 
