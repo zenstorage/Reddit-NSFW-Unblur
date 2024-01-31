@@ -8,7 +8,7 @@
 // @grant           GM_setValue
 // @grant           GM_getValue
 // @run-at          document-end
-// @version         2.3.3
+// @version         2.3.4
 // @author          hdyzen
 // @description     Unblur nsfw in Shreddit
 // @license         MIT
@@ -30,7 +30,7 @@ if (stateAc) {
     const blurLoader = document.querySelector('[bundlename="desktop_rpl_nsfw_blocking_modal"]');
     const promptElement = document.querySelector('xpromo-nsfw-blocking-container');
     if (blurLoader !== null) blurLoader.remove();
-    promptElement.shadowRoot.children[1].remove();
+    if (promptElement !== null) promptElement.shadowRoot.children[1].remove();
 }
 
 if (nsfwAc) {
