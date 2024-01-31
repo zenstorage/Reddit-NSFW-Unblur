@@ -8,7 +8,7 @@
 // @grant           GM_setValue
 // @grant           GM_getValue
 // @run-at          document-start
-// @version         2.3.1
+// @version         2.3.2
 // @author          hdyzen
 // @description     Unblur nsfw in Shreddit
 // @license         MIT
@@ -29,27 +29,29 @@ function reveal(element) {
         revealed = element.querySelector('[slot="revealed"]'),
         copyRevealed = revealed.cloneNode(true);
 
+    console.log(revealed, copyRevealed);
+
     // If have prompt to open app, remove it, else remove only blur
     if (element.matches('xpromo-nsfw-blocking-container')) {
         shadowRoot.querySelector('.prompt').remove();
     } else if ((element.getAttribute('reason') === 'nsfw' && nsfw) || (element.getAttribute('reason') === 'spoiler' && spoiler)) {
-        revealExec(element, shadowRoot, blurredSlot, copyRevealed);
+        revealExec(element, shadowRoot, blurredSlot, copyRevealed, 1000);
     } else {
         element.addEventListener('click', e => {
-            revealExec(element, shadowRoot, blurredSlot, copyRevealed, 0);
+            revealExec(element, shadowRoot, blurredSlot, copyRevealed);
         });
     }
 }
 
 // Reveal exec
-function revealExec(element, shadowRoot, blurredSlot, copyRevealed, timer = 1000) {
+function revealExec(element, shadowRoot, blurredSlot, copyRevealed, timer = 0) {
     const style = document.createElement('style');
     style.innerHTML = `.overlay, .bg-scrim { display: none !important; } .outer { height: auto !important; } .inner {display: unset !important; pointer-events: auto !important; background: none !important; filter: none !important; }`;
     shadowRoot.appendChild(style);
     blurredSlot.name = 'revealed';
     setTimeout(() => {
-        const oldRevealed = copyRevealed.previousElementSibling;
-        if (oldRevealed === null) return;
+        const hasOldRevealed = element.querySelector('[slot="revealed"]');
+        if (!!hasOldRevealed) return;
         element.appendChild(copyRevealed);
     }, timer);
 }
