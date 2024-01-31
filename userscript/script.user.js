@@ -28,7 +28,9 @@ function clickTarget(el) {
 
 if (stateAc) {
     const blurLoader = document.querySelector('[bundlename="desktop_rpl_nsfw_blocking_modal"]');
+    const promptElement = document.querySelector('xpromo-nsfw-blocking-container');
     if (blurLoader !== null) blurLoader.remove();
+    promptElement.shadowRoot.children[1].remove();
 }
 
 if (nsfwAc) {
