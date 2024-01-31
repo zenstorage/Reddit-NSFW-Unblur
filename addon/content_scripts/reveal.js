@@ -15,26 +15,24 @@ browser.storage.local.get('switchs', result => {
         subtree: true,
         attributes: true,
     });
+
+    // Fix line-clamp and text-overflow
+    document.documentElement.insertAdjacentHTML('beforeend', '<style> [slot="revealed"] > [class*="line-clamp"] { display: flex; flex-direction: column; gap: 1rem; } </style>');
 });
 
 // Reveal NSFW |func (only for xpromo-nsfw-blocking-container and shreddit-blurred-container)
 function reveal(element) {
     const shadowRoot = element.shadowRoot,
         inner = shadowRoot.querySelector('.inner'),
-        outer = shadowRoot.querySelector('.outer'),
         blurredSlot = shadowRoot.querySelector('slot[name="blurred"]');
-
-    console.log(element, shadowRoot.innerHTML === '', inner, blurredSlot);
 
     // If have prompt to open app, remove it, else remove only blur
     if (element.matches('xpromo-nsfw-blocking-container')) {
         shadowRoot.querySelector('.prompt').remove();
     } else if ((element.getAttribute('reason') === 'nsfw' && nsfwAc) || (element.getAttribute('reason') === 'spoiler' && spoilerAc)) {
-        shadowRoot.querySelector('.overlay').remove();
-        shadowRoot.querySelector('.bg-scrim').remove();
-        outer.style.height = 'auto';
-        inner.classList.remove('blurred');
-        inner.style.filter = 'none';
+        const style = document.createElement('style');
+        style.innerHTML = `.overlay, .bg-scrim { display: none !important; } .h-\\[88px\\] { height: max-content !important; } .inner {display: unset !important; pointer-events: auto !important; background: none !important; filter: none !important; }`;
+        shadowRoot.appendChild(style);
         blurredSlot.name = 'revealed';
     }
 }
@@ -43,7 +41,7 @@ function reveal(element) {
 function mutationHandler(mutation) {
     const targets = mutation.target.querySelectorAll('xpromo-nsfw-blocking-container, shreddit-blurred-container');
     targets.forEach(target => {
-        if (target.shadowRoot.innerHTML !== '' && !elementsDetected.has(target)) {
+        if (target.shadowRoot && target.shadowRoot.innerHTML !== '' && !elementsDetected.has(target)) {
             elementsDetected.add(target);
             reveal(target);
         }
