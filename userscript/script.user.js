@@ -7,8 +7,8 @@
 // @grant           GM_addStyle
 // @grant           GM_setValue
 // @grant           GM_getValue
-// @run-at          document-end
-// @version         2.3.4
+// @run-at          document-start
+// @version         2.3.2
 // @author          hdyzen
 // @description     Unblur nsfw in Shreddit
 // @license         MIT
@@ -16,36 +16,79 @@
 // ==/UserScript==
 'use strict';
 
-const { stateAc = true, nsfwAc = true, spoilerAc = false } = GM_getValue('states', false);
+// Elements observer
+const elementsDetected = new Set();
 
-function clickTarget(el) {
-    const targets = document.querySelectorAll(`[reason="${el}"] :is([slot="blurred"], [slot="revealed"]:first-child):not([clicked])`);
-    targets.forEach(target => {
-        target.setAttribute('clicked', true);
-        target.click();
+// States for NSFW and Spoiler
+let { status = true, nsfw = true, spoiler = false } = GM_getValue('states', false);
+
+// Reveal
+function reveal(element) {
+    const shadowRoot = element.shadowRoot,
+        blurredSlot = shadowRoot.querySelector('slot[name="blurred"]'),
+        revealed = element.querySelector('[slot="revealed"]'),
+        copyRevealed = revealed.cloneNode(true);
+
+    // If have prompt to open app, remove it, else remove only blur
+    if (element.matches('xpromo-nsfw-blocking-container')) {
+        shadowRoot.querySelector('.prompt').remove();
+    } else if ((element.getAttribute('reason') === 'nsfw' && nsfw) || (element.getAttribute('reason') === 'spoiler' && spoiler)) {
+        revealExec(element, shadowRoot, blurredSlot, copyRevealed, 1000);
+    } else {
+        element.addEventListener('click', e => {
+            revealExec(element, shadowRoot, blurredSlot, copyRevealed);
+        });
+    }
+}
+
+// Reveal exec
+function revealExec(element, shadowRoot, blurredSlot, copyRevealed, timer = 0) {
+    const style = document.createElement('style');
+    style.innerHTML = `.overlay, .bg-scrim { display: none !important; } .outer { height: auto !important; } .inner {display: unset !important; pointer-events: auto !important; background: none !important; filter: none !important; }`;
+    shadowRoot.appendChild(style);
+    blurredSlot.name = 'revealed';
+    setTimeout(() => {
+        const hasOldRevealed = element.querySelector('[slot="revealed"]');
+        if (!!hasOldRevealed) return;
+        element.appendChild(copyRevealed);
+    }, timer);
+}
+
+// Callback for MutationObserver
+function callback(mutations) {
+    mutations.forEach(mutation => {
+        const targets = mutation.target.querySelectorAll('xpromo-nsfw-blocking-container, shreddit-blurred-container');
+        targets.forEach(target => {
+            if (target.shadowRoot && target.shadowRoot.innerHTML !== '' && !elementsDetected.has(target)) {
+                elementsDetected.add(target);
+                reveal(target);
+            }
+        });
     });
 }
 
-if (stateAc) {
-    const blurLoader = document.querySelector('[bundlename="desktop_rpl_nsfw_blocking_modal"]');
-    const promptElement = document.querySelector('xpromo-nsfw-blocking-container');
-    if (blurLoader !== null) blurLoader.remove();
-    if (promptElement !== null) promptElement.shadowRoot.children[1].remove();
-}
+document.addEventListener('DOMContentLoaded', e => {
+    let isShreddit = document.querySelector('shreddit-app') ? true : false;
 
-if (nsfwAc) {
-    setInterval(() => {
-        clickTarget('nsfw');
-    }, 2000);
-}
+    if (!isShreddit) {
+        console.log('Not Shreddit');
+        return;
+    }
 
-if (spoilerAc) {
-    setInterval(() => {
-        clickTarget('spoiler');
-    }, 2000);
-}
+    console.log('Shreddit');
 
-function createMenu() {
+    if (status) {
+        // Mutation observer
+        const observer = new MutationObserver(callback);
+
+        // Start observing
+        observer.observe(document, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+        });
+    }
+
     const menu = GM_addElement(document.body, 'div', {
         id: 'menu',
     });
@@ -60,19 +103,19 @@ function createMenu() {
             form = document.getElementById('status-container');
 
         form.addEventListener('change', e => {
-            GM_setValue('states', { stateAc: toggle.checked, nsfwAc: toggleNSFW.checked, spoilerAc: toggleSpoiler.checked });
+            GM_setValue('states', { status: toggle.checked, nsfw: toggleNSFW.checked, spoiler: toggleSpoiler.checked });
         });
-        toggle.checked = stateAc;
-        toggleNSFW.checked = nsfwAc;
-        toggleSpoiler.checked = spoilerAc;
+        toggle.checked = status;
+        toggleNSFW.checked = nsfw;
+        toggleSpoiler.checked = spoiler;
     });
-
     document.addEventListener('click', e => {
         if (!e.target.closest('#menu')) menu.classList.remove('active');
     });
+});
 
-    // Styles
-    GM_addStyle(`#menu { pointer-events: auto; position: fixed;top: 7px;right: 20px;z-index: 999; font-size: 15px; font-weight: 600; padding: 0 15px; cursor: pointer; background-color: var(--color-secondary-background); border-radius: 999px;height: 40px;display: flex;align-items: center;justify-content: center;&:hover { background-color: var(--button-color-background-hover); } &.active #status-container {visibility: visible;opacity: 1;}}#status-container { box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5); cursor: auto; visibility: hidden;opacity: 0;position: absolute;top: 100%;right: 0;background-color: #1f1b19;color: #d1c2b7;font-family: system-ui, sans-serif;font-size: 28px;transition: 0.1s ease;border-radius: 10px;&:has(input#toggle:not(:checked)) {& label {color: #bdafa5;}& #status::before {content: 'OFF';}& #selected-ops input:checked + .slider {background-color: hsl(15, 61%, 59%);&::before {background-color: hsl(17, 75%, 40%);}}}}#status {padding: 10px;width: 180px;text-align: center;background-color: rgba(255, 255, 255, 0.03);&::before {content: 'ON';}}#container-toggle {display: flex;justify-content: center;align-items: center;width: 100%;height: 80px;font-size: 16px;}#toggle {display: none;& + svg {transition: 0.1s ease;cursor: pointer;width: 4rem;height: auto;padding: 5px;border-radius: 10px;fill: #cc6b47;&:hover {fill: #db683e;background-color: rgba(255, 255, 255, 0.1);}}&:checked + svg {fill: #ff3e00;}}#selected-ops {font-size: 16px;padding: 10px;display: flex;flex-direction: column;gap: 8px;--slider-height: 1.4rem;--slider-width: 2.4rem;--slider-radius: 20px;--slider-background: rgba(255, 255, 255, 0.1);--slider-active-background: #ff7f55;--slider-thumb-size: 1rem;--slider-thum-offset: 0.2rem;--slider-thumb-background: rgba(202, 57, 0, 0.801);& > label {display: flex;justify-content: start;cursor: pointer;user-select: none;font-size: 16px;& input {display: none;&:checked + .slider {background-color: var(--slider-active-background);&::before {scale: 1.15;left: calc(var(--slider-width) - var(--slider-thumb-size) - var(--slider-thum-offset));background-color: var(--slider-thumb-background);}}}& .slider-label {flex-grow: 1;text-align: center;color: #d1c2b7;line-height: normal;}& .slider {position: relative;display: flex;align-items: center;height: var(--slider-height);width: var(--slider-width);border-radius: var(--slider-radius);background-color: var(--slider-background);transition: 0.1s ease;&::before {content: '';position: absolute;border-radius: inherit;height: var(--slider-thumb-size);width: var(--slider-thumb-size);left: var(--slider-thum-offset);background-color: var(--slider-background);transition: 0.3s ease;}}}} .pl-lg { margin-right: 80px} `);
-    GM_addStyle(` [slot="revealed"] [class*="line-clamp"] { display: flex; flex-direction: column; gap: 1rem } `);
-}
-createMenu();
+// Styles
+GM_addStyle(`#menu { pointer-events: auto; position: fixed;top: 7px;right: 20px;z-index: 999; font-size: 15px; font-weight: 600; padding: 0 15px; cursor: pointer; background-color: var(--color-secondary-background); border-radius: 999px;height: 40px;display: flex;align-items: center;justify-content: center;&:hover { background-color: var(--button-color-background-hover); } &.active #status-container {visibility: visible;opacity: 1;}}#status-container { box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5); cursor: auto; visibility: hidden;opacity: 0;position: absolute;top: 100%;right: 0;background-color: #1f1b19;color: #d1c2b7;font-family: system-ui, sans-serif;font-size: 28px;transition: 0.1s ease;border-radius: 10px;&:has(input#toggle:not(:checked)) {& label {color: #bdafa5;}& #status::before {content: 'OFF';}& #selected-ops input:checked + .slider {background-color: hsl(15, 61%, 59%);&::before {background-color: hsl(17, 75%, 40%);}}}}#status {padding: 10px;width: 180px;text-align: center;background-color: rgba(255, 255, 255, 0.03);&::before {content: 'ON';}}#container-toggle {display: flex;justify-content: center;align-items: center;width: 100%;height: 80px;font-size: 16px;}#toggle {display: none;& + svg {transition: 0.1s ease;cursor: pointer;width: 4rem;height: auto;padding: 5px;border-radius: 10px;fill: #cc6b47;&:hover {fill: #db683e;background-color: rgba(255, 255, 255, 0.1);}}&:checked + svg {fill: #ff3e00;}}#selected-ops {font-size: 16px;padding: 10px;display: flex;flex-direction: column;gap: 8px;--slider-height: 1.4rem;--slider-width: 2.4rem;--slider-radius: 20px;--slider-background: rgba(255, 255, 255, 0.1);--slider-active-background: #ff7f55;--slider-thumb-size: 1rem;--slider-thum-offset: 0.2rem;--slider-thumb-background: rgba(202, 57, 0, 0.801);& > label {display: flex;justify-content: start;cursor: pointer;user-select: none;font-size: 16px;& input {display: none;&:checked + .slider {background-color: var(--slider-active-background);&::before {scale: 1.15;left: calc(var(--slider-width) - var(--slider-thumb-size) - var(--slider-thum-offset));background-color: var(--slider-thumb-background);}}}& .slider-label {flex-grow: 1;text-align: center;color: #d1c2b7;line-height: normal;}& .slider {position: relative;display: flex;align-items: center;height: var(--slider-height);width: var(--slider-width);border-radius: var(--slider-radius);background-color: var(--slider-background);transition: 0.1s ease;&::before {content: '';position: absolute;border-radius: inherit;height: var(--slider-thumb-size);width: var(--slider-thumb-size);left: var(--slider-thum-offset);background-color: var(--slider-background);transition: 0.3s ease;}}}} .pl-lg { margin-right: 80px} `);
+
+// Remove overlay NSFW
+if (status) GM_addStyle(`body[style="pointer-events: none; overflow: hidden;"] { pointer-events: auto !important; overflow: auto !important; } div[style="position: fixed; inset: 0px; backdrop-filter: blur(4px);"] { display: none !important; } shreddit-async-loader[bundlename="desktop_rpl_nsfw_blocking_modal"] { display: none !important; } [role="presentation"][style="filter: blur(4px);"] { filter: none !important; }shreddit-blurred-container{ display: flex ;height: 100%; } .sidebar-grid.fixed{ position: unset !important; } [slot="revealed"] > [class*="line-clamp"] { display: flex; flex-direction: column; gap: 1rem; } `);
