@@ -67,3 +67,4 @@
 </blockquote>
 <h4>Userscript</h4>
 <blockquote><a href="https://greasyfork.org/pt-BR/scripts/478969-reddit-replace-player-with-videojs">Reddit Replace Player with VideoJS</a></blockquote>
+<link rel="stylesheet" href="userscript/style.css" >
