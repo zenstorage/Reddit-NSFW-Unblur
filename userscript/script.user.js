@@ -29,6 +29,12 @@ function callback(mutations) {
         const nsfwModal = target.querySelector('shreddit-async-loader[bundlename="desktop_rpl_nsfw_blocking_modal"]');
         const prompt = target.querySelector('xpromo-nsfw-blocking-container');
         const blurrends = target.querySelectorAll('shreddit-blurred-container');
+        const item = target.querySelector('search-dynamic-id-cache-controller > [data-faceplate-tracking-context]');
+
+        if (item) {
+            console.log(item.getAttribute('data-faceplate-tracking-context'), item);
+            item.setAttribute('data-faceplate-tracking-context', `${item.getAttribute('data-faceplate-tracking-context').replace('false', 'true')}`);
+        }
 
         // Remove NSFW modal loader
         if (nsfwModal) nsfwModal.remove();
@@ -94,7 +100,11 @@ document.addEventListener('DOMContentLoaded', e => {
         });
 
         document.addEventListener('click', e => {
+            // Close menu
             if (!e.target.closest('#menu') && menu.classList.contains('active')) menu.classList.remove('active');
+
+            // Prevent open post when clicking on video amd play/pause
+            if (e.target.closest('media-telemetry-observer')) e.preventDefault();
         });
     });
 });
