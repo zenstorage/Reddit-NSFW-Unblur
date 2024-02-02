@@ -50,15 +50,25 @@
 <blockquote>This method does not block the confirm prompt on the post page</blockquote>
 <p>Add to extension this rule:<a href="https://pastebin.com/2x2NuzUp"> request-control-rules.json</a></p>
 <img src="https://i.imgur.com/2oVX1dD.png">
+<h4>Redirector</h4>
+<blockquote>This method does not block the confirm prompt on the post page</blockquote>
+<p>Add to you rules:</p>
+<img src="https://i.imgur.com/DYRQ2cj.png">
+<h4>Anyone others extension can block the url:</h4>
+<p>Match patterns:</p>
+<code>https://www.redditstatic.com/*xpromo-nsfw-blocking-modal-desktop*.js</code>
+<p>Regex:</p>
+<code>https:\/\/www\.redditstatic\.com\/.*xpromo-nsfw-blocking-modal-desktop.*\.js</code>
 <h2>Related to Reddit</h2>
 <h3>Show original images on Reddit</h3>
 <h4>Using Request Control, create a rule e use this config:</h4>
 <img src="https://i.imgur.com/88YYMgW.png">
 <h4>Using Redirector, create a rule e use this config:</h4>
-<blockquote>Tip: if you want open original image, instead image with reddit layout, leave Main window checked</blockquote>
 <img src="https://i.imgur.com/36MNlQg.png">
 <h4>Using ModHeader, create a rule e use this config:</h4>
-<blockquote>Tip: if you don't want show original images in posts, replace <code>image/*</code> with <code>image/webp</code></blockquote>
+<blockquote>This method also open only images instead reddit image viewer.
+<br>
+Tip: if you don't want show original images in posts, replace <code>image/*</code> with <code>image/webp</code></blockquote>
 <img src="https://i.imgur.com/FmvA6Mp.png">
 <h3>Others</h3>
 <h4>Userstyle</h4>
