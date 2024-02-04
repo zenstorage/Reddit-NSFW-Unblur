@@ -54,7 +54,7 @@
 <blockquote>This method does not block the confirm prompt on the post page</blockquote>
 <p>Add to you rules:</p>
 <img src="https://i.imgur.com/DYRQ2cj.png">
-<h4>Anyone others extension can block the url:</h4>
+<h4>Any other extension that can block the URL:</h4>
 <p>Match patterns:</p>
 <code>https://www.redditstatic.com/*xpromo-nsfw-blocking-modal-desktop*.js</code>
 <p>Regex:</p>
