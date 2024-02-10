@@ -42,10 +42,29 @@
 <p>Then install userscript:</p>
 <a href="https://greasyfork.org/scripts/485608">Reddit NSFW Unblur</a>
 <h2>Alternative Methods</h2>
+<blockquote>Of the alternative methods, only uBO autounblur, the others just block the nsfw loader popup</blockquote>
 <h4>uBlock Origin</h4>
 <p>Add to my filters:</p>
-<pre>reddit.com##.prompt
-||www.redditstatic.com/shreddit/pt-BR/xpromo-nsfw-blocking-modal*.js$all,domain=reddit.com</pre>
+<pre>
+! Reddit - Hide prompt to open in app
+reddit.com##.prompt 
+! Reddit - Block loader of nsfw modal
+||www.redditstatic.com/shreddit/pt-BR/xpromo-nsfw-blocking-modal*.js$all,domain=reddit.com
+</pre>
+<p>If you want autounblur, you need to add this filters and add scriptlets to userResourcesLocation, check here: <a href="https://github.com/uBlockO/uBO-Scriptlets#installation">uBO-Scriptlets</a></p>
+<p>Add the one above and these:</p>
+<pre>
+! Reddit - Replace revealed with blurred - Need set scriptlets in userResourcesLocation
+reddit.com##+js(rpla, [slot="revealed"], slot, slot, blurred)
+! Reddit - Unblur
+reddit.com##.inner:style(display: unset !important; pointer-events: unset !important; background: unset !important; filter: unset !important;)
+! Reddit - Hide original blurred
+reddit.com##[slot="blurred"]:not([class])
+! Reddit - Hide overlay in nsfw
+reddit.com##.overlay
+! Reddit - Hide dark overlay
+reddit.com##.bg-scrim
+</pre>
 <h4>Request Control</h4>
 <blockquote>This method does not block the confirm prompt on the post page</blockquote>
 <p>Add to extension this rule:<a href="https://pastebin.com/2x2NuzUp"> request-control-rules.json</a></p>
