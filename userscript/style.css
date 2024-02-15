@@ -1,8 +1,5 @@
 #menu {
     pointer-events: auto;
-    position: fixed;
-    top: 7px;
-    right: 20px;
     z-index: 999;
     font-size: 15px;
     font-weight: 600;
@@ -10,7 +7,7 @@
     cursor: pointer;
     background-color: var(--color-secondary-background);
     border-radius: 999px;
-    height: 40px;
+    height: calc(var(--shreddit-header-height) - 1rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -146,6 +143,17 @@
         }
     }
 }
-.pl-lg {
-    margin-right: 80px;
+@media (hover: none) and (any-pointer: coarse) {
+    #menu {
+        margin-left: 0.5rem;
+    }
+}
+
+/* If status is ON */
+body.v2 {
+    overflow: auto !important;
+    pointer-events: auto !important;
+}
+.sidebar-grid {
+    filter: blur(0) !important;
 }
