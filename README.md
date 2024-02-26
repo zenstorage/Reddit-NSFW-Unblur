@@ -73,6 +73,10 @@ reddit.com##.bg-scrim
 <blockquote>This method does not block the confirm prompt on the post page</blockquote>
 <p>Add to you rules:</p>
 <img src="https://i.imgur.com/DYRQ2cj.png">
+<h4>ModHeader</h4>
+<blockquote>This method does not block the confirm prompt on the post page</blockquote>
+<p>Add to you rules:</p>
+<img src="https://i.imgur.com/RptYic2.png">
 <h4>Any other extension that can block the URL:</h4>
 <p>Match patterns:</p>
 <code>https://www.redditstatic.com/*xpromo-nsfw-blocking-modal-desktop*.js</code>
@@ -89,6 +93,11 @@ reddit.com##.bg-scrim
 <br>
 Tip: if you don't want show original images in posts, replace <code>image/*</code> with <code>image/webp</code></blockquote>
 <img src="https://i.imgur.com/FmvA6Mp.png">
+<h3>Reditect to new.reddit</h3>
+<h4>Using Redirector</h4>
+<img src="https://i.imgur.com/3phqHZj.png">
+<h4>Using ModHeader</h4>
+<img src="https://i.imgur.com/UAtNEZO.png">
 <h3>Others</h3>
 <h4>Userstyle</h4>
 <blockquote>    
