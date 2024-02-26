@@ -7,8 +7,8 @@
 // @grant           GM_addStyle
 // @grant           GM_setValue
 // @grant           GM_getValue
-// @run-at          document-start
-// @version         2.3.5
+// @run-at          document-body
+// @version         2.3.6
 // @author          hdyzen
 // @description     Unblur nsfw in Shreddit
 // @license         MIT
@@ -16,61 +16,41 @@
 // ==/UserScript==
 'use strict';
 
-// Elements observer
-const elementsDetected = new Set();
-
 // States for NSFW and Spoiler
 let { status = true, nsfw = true, spoiler = false } = GM_getValue('states', false);
-
-// Callback for MutationObserver
-function callback(mutations) {
-    mutations.forEach(mutation => {
-        const target = mutation.target;
-        const nsfwModal = target.querySelector('shreddit-async-loader[bundlename*="nsfw_blocking_modal"]');
-        const prompt = target.querySelector('xpromo-nsfw-blocking-container');
-        const blurrends = target.querySelectorAll('shreddit-blurred-container');
-
-        // Remove NSFW modal loader
-        if (nsfwModal) nsfwModal.remove();
-
-        // Remove prompt
-        if (prompt && prompt.shadowRoot && prompt.shadowRoot.innerHTML !== '' && !elementsDetected.has(prompt)) {
-            elementsDetected.add(prompt);
-            prompt.shadowRoot.children[1].remove();
-        }
-
-        // Click blurrends
-        blurrends.forEach(blurrend => {
-            if (blurrend.matches('shreddit-blurred-container') && blurrend.shadowRoot && blurrend.shadowRoot.innerHTML !== '' && !elementsDetected.has(blurrend)) {
-                elementsDetected.add(blurrend);
-                const clickIfMatch = (blurrend.getAttribute('reason') === 'nsfw' && nsfw) || (blurrend.getAttribute('reason') === 'spoiler' && spoiler) ? blurrend.children[0].click() : null;
-            }
-        });
-    });
-}
 
 // Mutation observer
 const observer = new MutationObserver(callback);
 
-if (status) {
-    // Start observing
-    observer.observe(document, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-    });
-    GM_addStyle(`body.v2 {overflow: auto !important;pointer-events: auto !important;}.sidebar-grid {filter: blur(0) !important;}`);
-}
+// Callback for MutationObserver
+function callback(mutations) {
+    const nsfwModal = document.querySelector('shreddit-async-loader[bundlename*="nsfw_blocking_modal"]'),
+        prompt = document.querySelector('xpromo-nsfw-blocking-container:not([removedPrompt])'),
+        blurrends = document.querySelectorAll('shreddit-blurred-container:not([clicked])'),
+        menuAdded = !!document.getElementById('menu');
 
-document.addEventListener('DOMContentLoaded', e => {
-    let isShreddit = document.querySelector('shreddit-app') ? true : false;
+    if (!menuAdded) initMenu();
 
-    // Check if Shreddit
-    if (!isShreddit) {
-        observer.disconnect();
-        return;
+    if (nsfwModal)
+        // Remove NSFW modal loader
+        nsfwModal.remove();
+
+    // Remove prompt
+    if (prompt?.shadowRoot?.innerHTML) {
+        prompt.setAttribute('removedPrompt', '');
+        prompt.shadowRoot.children[1].remove();
     }
 
+    // Click blurrends
+    blurrends.forEach(blurred => {
+        if (blurred.shadowRoot?.innerHTML) {
+            blurred.setAttribute('clicked', '');
+            const clickIfMatch = (blurred.matches('[reason="nsfw"]') && nsfw) || (blurred.matches('[reason="spoiler"]') && spoiler) ? blurred.children[0].click() : null;
+        }
+    });
+}
+
+function initMenu() {
     // Add menu
     const menu = GM_addElement(document.querySelector('header.v2 > nav > :last-child'), 'div', {
         id: 'menu',
@@ -98,13 +78,26 @@ document.addEventListener('DOMContentLoaded', e => {
         });
 
         document.addEventListener('click', e => {
-            // Close menu
-            if (!e.target.closest('#menu') && menu.classList.contains('active')) menu.classList.remove('active');
-
-            // Prevent open post when clicking on video
-            if (e.target.closest('media-telemetry-observer')) e.preventDefault();
+            if (!e.target.closest('#menu') && menu.classList.contains('active')) menu.classList.remove('active'); // Close menu
+            if (e.target.closest('media-telemetry-observer')) e.preventDefault(); // Prevent open post when clicking on video
         });
     });
+}
+
+if (status) {
+    // Start observing
+    observer.observe(document, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+    });
+    GM_addStyle(`body.v2 {overflow: auto !important;pointer-events: auto !important;}.sidebar-grid {filter: blur(0) !important;}[bundlename="desktop_rpl_nsfw_blocking_modal"],body > div[style*="blur"] {display: none !important}`);
+}
+
+document.addEventListener('DOMContentLoaded', e => {
+    let isShreddit = document.body.matches('.v2');
+    // Check if Shreddit
+    if (!isShreddit) observer.disconnect();
 });
 
 // Styles
