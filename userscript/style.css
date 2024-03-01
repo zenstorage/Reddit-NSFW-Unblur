@@ -11,6 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    grid-column: -1;
     &:hover {
         background-color: var(--button-color-background-hover);
     }
