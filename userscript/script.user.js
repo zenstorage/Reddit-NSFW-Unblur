@@ -8,7 +8,8 @@
 // @grant           GM_setValue
 // @grant           GM_getValue
 // @run-at          document-body
-// @version         2.3.7
+// @noframes
+// @version         2.3.7a
 // @author          hdyzen
 // @description     Unblur nsfw in Shreddit
 // @license         MIT
