@@ -42,16 +42,16 @@
 <p>Then install userscript:</p>
 <a href="https://greasyfork.org/scripts/485608">Reddit NSFW Unblur</a>
 <h2>Alternative Methods</h2>
-<blockquote>Of the alternative methods, only uBO autounblur, the others just block the nsfw loader popup</blockquote>
+<blockquote>Only uBlock Origin removes the overlay prompt to open in the app and removes the blur, but you need to activate <i>I am an advanced user</i></blockquote>
 <h4>uBlock Origin</h4>
 <p>Add to my filters:</p>
 <pre>
 ! Reddit - Hide prompt to open in app
 reddit.com##.prompt 
 ! Reddit - Block loader of nsfw modal
-||www.redditstatic.com/shreddit/pt-BR/xpromo-nsfw-blocking-modal*.js$all,domain=reddit.com
+||www.redditstatic.com/shreddit/*/xpromo-nsfw-blocking-modal*.js$script,domain=reddit.com
 </pre>
-<p>If you want autounblur, you need to add this filters and add scriptlets to userResourcesLocation, check here: <a href="https://github.com/uBlockO/uBO-Scriptlets#installation">uBO-Scriptlets</a></p>
+<p>To remove blur, need add this filters and add scriptlets to <i>userResourcesLocation</i>, check here: <a href="https://github.com/uBlockO/uBO-Scriptlets#installation">uBO-Scriptlets</a></p>
 <p>Add the one above and these:</p>
 <pre>
 ! Reddit - Replace revealed with blurred - Need set scriptlets in userResourcesLocation
@@ -65,16 +65,14 @@ reddit.com##.overlay
 ! Reddit - Hide dark overlay
 reddit.com##.bg-scrim
 </pre>
+<hr>
+<blockquote>The methods below do not block the prompt that appears on the single post page and do not remove the blur</blockquote>
 <h4>Request Control</h4>
-<blockquote>This method does not block the confirm prompt on the post page</blockquote>
-<p>Add to extension this rule:<a href="https://pastebin.com/2x2NuzUp"> request-control-rules.json</a></p>
 <img src="https://i.imgur.com/2oVX1dD.png">
 <h4>Redirector</h4>
-<blockquote>This method does not block the confirm prompt on the post page</blockquote>
 <p>Add to you rules:</p>
 <img src="https://i.imgur.com/DYRQ2cj.png">
 <h4>ModHeader</h4>
-<blockquote>This method does not block the confirm prompt on the post page</blockquote>
 <p>Add to you rules:</p>
 <img src="https://i.imgur.com/RptYic2.png">
 <h4>Any other extension that can block the URL:</h4>
@@ -89,13 +87,12 @@ reddit.com##.bg-scrim
 <h4>Using Redirector, create a rule e use this config:</h4>
 <img src="https://i.imgur.com/36MNlQg.png">
 <h4>Using ModHeader, create a rule e use this config:</h4>
-<blockquote>This method also open only images instead reddit image viewer.
-<br>
-Tip: if you don't want show original images in posts, replace <code>image/*</code> with <code>image/webp</code></blockquote>
-<img src="https://i.imgur.com/FmvA6Mp.png">
+<img src="https://i.imgur.com/AwCucFq.png">
 <h3>Reditect to new.reddit</h3>
+<h4>Using Request Control</h4>
+<img src="https://i.imgur.com/iIYMbM3.png">
 <h4>Using Redirector</h4>
-<img src="https://i.imgur.com/3phqHZj.png">
+<img src="https://i.imgur.com/8o71Qai.png">
 <h4>Using ModHeader</h4>
 <img src="https://i.imgur.com/UAtNEZO.png">
 <h3>Others</h3>
