@@ -32,6 +32,8 @@ function callback(mutations) {
 
     if (!menuAdded) initMenu();
 
+    if (!status) return;
+
     if (nsfwModal)
         // Remove NSFW modal loader
         nsfwModal.remove();
@@ -85,13 +87,14 @@ function initMenu() {
     });
 }
 
+// Start observing
+observer.observe(document, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+});
+
 if (status) {
-    // Start observing
-    observer.observe(document, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-    });
     GM_addStyle(`body.v2 {overflow: auto !important;pointer-events: auto !important;}.sidebar-grid {filter: blur(0) !important;}[bundlename="desktop_rpl_nsfw_blocking_modal"],body > div[style*="blur"] {display: none !important}`);
 }
 
