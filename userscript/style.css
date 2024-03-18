@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: center;
     grid-column: -1;
+    min-width: max-content;
     &:hover {
         background-color: var(--button-color-background-hover);
     }
