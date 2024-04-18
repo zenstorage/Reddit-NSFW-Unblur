@@ -42,7 +42,6 @@
 <p>Then install userscript:</p>
 <a href="https://greasyfork.org/scripts/485608">Reddit NSFW Unblur</a>
 <h2>Alternative Methods</h2>
-<blockquote>Only uBlock Origin removes the overlay prompt to open in the app and removes the blur</i></blockquote>
 <h4>uBlock Origin</h4>
 <p>Add to tab <b>My Filters:</b></p>
 <pre>
@@ -56,7 +55,7 @@ reddit.com##shreddit-blurred-container[mode]:has([slot="revealed"]):remove-attr(
 reddit.com##.blurred:style(filter: unset !important; background: unset !important;pointer-events: unset !important;display: unset !important;)
 </pre>
 <hr>
-<blockquote>The methods below do not block the prompt that appears on the single post page and do not remove the blur</blockquote>
+<blockquote>If you want to use the methods below with the prompt and blur disabled on reddit see:<a href="#use-modheader-to-disable-prompt-and-blur">AA</a></blockquote>
 <h4>Request Control</h4>
 <img src="https://i.imgur.com/2oVX1dD.png">
 <h4>Redirector</h4>
@@ -86,6 +85,24 @@ reddit.com##.blurred:style(filter: unset !important; background: unset !importan
 <h4>Using ModHeader</h4>
 <img src="https://i.imgur.com/UAtNEZO.png">
 <h3>Others</h3>
+<h4>Use ModHeader to disable prompt and blur uses the modified original script, use at your own risk</h4>
+<pre>
+In Response headers, add key:
+Access-Control-Allow-Origin
+Paste in value:
+*
+
+Redirect:
+https:\/\/www.redditstatic.com/.*/xpromo-nsfw-blocking.*\.js
+To:
+https:\/\/example.com
+
+Redirect:
+https:\/\/www.redditstatic.com/.*/deprecated-content-client-js.*\.js
+To:
+https:\/\/strong-seaanemone.static.domains/script.js
+</pre>
+<img src="https://i.imgur.com/vLv0pSP.png">
 <h4>Userstyle</h4>
 <blockquote>    
     <a href="https://userstyles.world/style/9384/minimal-reddit">Minimal Reddit</a>
