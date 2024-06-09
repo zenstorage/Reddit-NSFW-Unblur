@@ -1,4 +1,5 @@
-#menu {
+/* Menu */
+#menu-unblur {
     pointer-events: auto;
     z-index: 999;
     font-size: 15px;
@@ -146,9 +147,17 @@
     }
 }
 @media (hover: none) and (any-pointer: coarse) {
-    #menu {
+    #menu-unblur {
         margin-left: 0.5rem;
     }
+}
+
+/* NSFW Thumbs */
+:is(shreddit-post[nsfw], [data-faceplate-tracking-context*='"nsfw":true']) faceplate-img {
+    filter: none !important;
+}
+:is(shreddit-post[nsfw], [data-faceplate-tracking-context*='"nsfw":true']) :is(a[href], shreddit-pubsub-publisher) + .absolute {
+    display: none !important;
 }
 
 /* If status is ON */
