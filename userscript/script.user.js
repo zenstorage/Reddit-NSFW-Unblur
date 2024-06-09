@@ -4,7 +4,6 @@
 // @match           https://www.reddit.com/*
 // @match           https://sh.reddit.com/*
 // @grant           GM_addElement
-// @grant           GM_addStyle
 // @grant           GM_setValue
 // @grant           GM_getValue
 // @run-at          document-body
@@ -63,10 +62,10 @@ function callback(mutations) {
     });
 }
 
-function initMenu() {
+async function initMenu() {
     // Add menu
     const menu = GM_addElement(document.querySelector('header.v2 > nav'), 'div', {
-        id: 'menu',
+        id: 'menu-unblur',
     });
 
     // Add toggle
@@ -94,7 +93,6 @@ function initMenu() {
     document.addEventListener('click', e => {
         if (!e.target.closest('#menu-unblur') && menu.classList.contains('active')) menu.classList.remove('active'); // Close menu
         if (e.target.closest('media-telemetry-observer')) e.preventDefault(); // Prevent open post when clicking on video
-        });
     });
 }
 
