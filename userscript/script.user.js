@@ -23,6 +23,20 @@ let { state = true, nsfw = true, spoiler = false } = GM_getValue('states', false
 // Mutation observer
 const observer = new MutationObserver(callback);
 
+// Styles loaded
+let styleLoaded = false;
+
+// Styles link
+const styleM = (GM_addElement(document.head, 'link', {
+    rel: 'stylesheet',
+    href: 'https://zenstorage.github.io/Reddit-NSFW-Unblur/userscript/style.css',
+}).onload = () => {
+    styleLoaded = true;
+});
+
+// LOG with prefix
+const log = (...msg) => console.log('[Unblur]:', ...msg);
+
 // Callback for MutationObserver
 function callback(mutations) {
     const nsfwModal = document.querySelector('shreddit-async-loader[bundlename*="nsfw_blocking_modal"]'),
@@ -93,15 +107,8 @@ observer.observe(document, {
     attributes: true,
 });
 
-if (state) {
-    GM_addStyle(`body.v2 {overflow: auto !important;pointer-events: auto !important;}.sidebar-grid {filter: blur(0) !important;}[bundlename="desktop_rpl_nsfw_blocking_modal"],body > div[style*="blur"] {display: none !important}`);
-}
-
 document.addEventListener('DOMContentLoaded', e => {
     let isShreddit = document.body.classList.contains('v2');
     // Check if Shreddit
     if (!isShreddit) observer.disconnect();
 });
-
-// Styles
-GM_addStyle(`#menu {pointer-events: auto;z-index: 999;font-size: 15px;font-weight: 600;padding: 0 15px;cursor: pointer;background-color: var(--color-secondary-background);border-radius: 999px;height: calc(var(--shreddit-header-height) - 1rem);display: flex;align-items: center;justify-content: center;grid-column: -1;min-width: max-content;&:hover {background-color: var(--button-color-background-hover);}&.active #status-container {visibility: visible;opacity: 1;}}#status-container {box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);cursor: auto;visibility: hidden;opacity: 0;position: absolute;top: 100%;right: 0;background-color: #1f1b19;color: #d1c2b7;font-family: system-ui, sans-serif;font-size: 28px;transition: 0.1s ease;border-radius: 10px;&:has(input#toggle:not(:checked)) {& label {color: #bdafa5;}& #status::before {content: 'OFF';}& #selected-ops input:checked + .slider {background-color: hsl(15, 61%, 59%);&::before {background-color: hsl(17, 75%, 40%);}}}}#status {padding: 10px;width: 180px;text-align: center;background-color: rgba(255, 255, 255, 0.03);&::before {content: 'ON';}}#container-toggle {display: flex;justify-content: center;align-items: center;width: 100%;height: 80px;font-size: 16px;}#toggle {display: none;& + svg {transition: 0.1s ease;cursor: pointer;width: 4rem;height: auto;padding: 5px;border-radius: 10px;fill: #cc6b47;&:hover {fill: #db683e;background-color: rgba(255, 255, 255, 0.1);}}&:checked + svg {fill: #ff3e00;}}#selected-ops {font-size: 16px;padding: 10px;display: flex;flex-direction: column;gap: 8px;--slider-height: 1.4rem;--slider-width: 2.4rem;--slider-radius: 20px;--slider-background: rgba(255, 255, 255, 0.1);--slider-active-background: #ff7f55;--slider-thumb-size: 1rem;--slider-thum-offset: 0.2rem;--slider-thumb-background: rgba(202, 57, 0, 0.801);& > label {display: flex;justify-content: start;cursor: pointer;user-select: none;font-size: 16px;& input {display: none;&:checked + .slider {background-color: var(--slider-active-background);&::before {scale: 1.15;left: calc(var(--slider-width) - var(--slider-thumb-size) - var(--slider-thum-offset));background-color: var(--slider-thumb-background);}}}& .slider-label {flex-grow: 1;text-align: center;color: #d1c2b7;line-height: normal;}& .slider {position: relative;display: flex;align-items: center;height: var(--slider-height);width: var(--slider-width);border-radius: var(--slider-radius);background-color: var(--slider-background);transition: 0.1s ease;&::before {content: '';position: absolute;border-radius: inherit;height: var(--slider-thumb-size);width: var(--slider-thumb-size);left: var(--slider-thum-offset);background-color: var(--slider-background);transition: 0.3s ease;}}}}@media (hover: none) and (any-pointer: coarse) {#menu {margin-left: 0.5rem;}}body.v2 {overflow: auto !important;pointer-events: auto !important;}.sidebar-grid {filter: blur(0) !important;} :is(shreddit-post[nsfw], [data-faceplate-tracking-context*='"nsfw":true']) faceplate-img { filter: none !important; } :is(shreddit-post[nsfw], [data-faceplate-tracking-context*='"nsfw":true']) :is(a[href], shreddit-pubsub-publisher) + .absolute { display: none !important; }`);
