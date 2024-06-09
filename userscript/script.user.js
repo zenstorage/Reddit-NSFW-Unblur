@@ -18,7 +18,7 @@
 'use strict';
 
 // States for NSFW and Spoiler
-let { status = true, nsfw = true, spoiler = false } = GM_getValue('states', false);
+let { state = true, nsfw = true, spoiler = false } = GM_getValue('states', false);
 
 // Mutation observer
 const observer = new MutationObserver(callback);
