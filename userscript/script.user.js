@@ -39,30 +39,27 @@ const log = (...msg) => console.log('[Unblur]:', ...msg);
 
 // Callback for MutationObserver
 function callback(mutations) {
-    const nsfwModal = document.querySelector('shreddit-async-loader[bundlename*="nsfw_blocking_modal"]'),
-        prompt = document.querySelector('xpromo-nsfw-blocking-container:not([removedPrompt])'),
-        blurrends = document.querySelectorAll('shreddit-blurred-container:not([clicked])'),
-        menuAdded = document.getElementById('menu');
+    const nsfwModal = [...document.getElementsByTagName('shreddit-async-loader')].find(e => e.getAttribute('bundlename').includes('nsfw_blocking_modal')),
+        prompt = document.getElementsByTagName('xpromo-nsfw-blocking-container')?.[0]?.shadowRoot?.children[1],
+        blurreds = [...document.getElementsByTagName('shreddit-blurred-container')].filter(e => !e.hasAttribute('clicked') && e?.shadowRoot?.innerHTML && ((e.getAttribute('reason') === 'nsfw' && nsfw) || (e.getAttribute('reason') === 'spoiler' && spoiler))),
+        menuAdded = document.getElementById('menu-unblur');
 
-    if (!menuAdded) initMenu();
+    // Create menu
+    if (!menuAdded && styleLoaded) initMenu();
 
+    // Return if unblur off
     if (!state) return;
 
     // Remove NSFW modal loader
     if (nsfwModal) nsfwModal.remove();
 
     // Remove prompt
-    if (prompt?.shadowRoot?.innerHTML) {
-        prompt.setAttribute('removedPrompt', '');
-        prompt.shadowRoot.children[1].remove();
-    }
+    if (prompt) prompt.remove();
 
-    // Click blurrends
-    blurrends.forEach(blurred => {
-        if (blurred.shadowRoot?.innerHTML && ((blurred.matches('[reason="nsfw"]') && nsfw) || (blurred.matches('[reason="spoiler"]') && spoiler))) {
-            blurred.firstElementChild.click();
-            blurred.setAttribute('clicked', '');
-        }
+    // Click in blurred
+    blurreds.forEach(blurred => {
+        blurred.firstElementChild.click();
+        blurred.setAttribute('clicked', '');
     });
 }
 
