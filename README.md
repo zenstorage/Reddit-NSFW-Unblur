@@ -42,20 +42,29 @@
 <p>Then install userscript:</p>
 <a href="https://greasyfork.org/scripts/485608">Reddit NSFW Unblur</a>
 <h2>Alternative Methods</h2>
+<h4>Adblock filters (ABP syntax does not have a snippet to autoblur)</h4>
+<blockquote>
+    <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/ublock.txt">uBlock Origin</a>
+    <br>
+    <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/brave.txt">Brave</a>
+    <br>
+    <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/abp.txt">ABP syntax (Adblock Plus, Vivaldi, etc...)</a>
+</blockquote>
 <h4>uBlock Origin</h4>
 <p>Add to tab <b>My Filters:</b></p>
 <pre>
 ! Reddit - Block loader of nsfw modal
 ||www.redditstatic.com/shreddit/*/xpromo-nsfw-blocking-modal*.js$script,domain=reddit.com
 ! Reddit - Hide prompt in single post, backdrop overlay
-reddit.com##.prompt, .bg-scrim, .overlay
-! Reddit - Set revealed removing mode
+reddit.com##.prompt
+reddit.com##.bg-scrim
+reddit.com##.overlay
+! Reddit - Set revealed removing mode attr
 reddit.com##shreddit-blurred-container[mode]:has([slot="revealed"]):remove-attr(mode)
 ! Reddit - Remove blur, backdrop...
-reddit.com##.blurred:style(filter: unset !important; background: unset !important;pointer-events: unset !important;display: unset !important;)
+reddit.com##.blurred:style(filter: unset !important; background: unset !important; pointer-events: unset !important; display: unset !important;)
 </pre>
 <hr>
-<blockquote>If you want to use the methods below with the prompt and blur disabled on reddit see:<a href="#use-modheader-to-disable-prompt-and-blur">AA</a></blockquote>
 <h4>Request Control</h4>
 <img src="https://i.imgur.com/2oVX1dD.png">
 <h4>Redirector</h4>
@@ -69,44 +78,3 @@ reddit.com##.blurred:style(filter: unset !important; background: unset !importan
 <code>https://www.redditstatic.com/*xpromo-nsfw-blocking-modal-desktop*.js</code>
 <p>Regex:</p>
 <code>https:\/\/www\.redditstatic\.com\/.*xpromo-nsfw-blocking-modal-desktop.*\.js</code>
-<h2>Related to Reddit</h2>
-<h3>Show original images on Reddit</h3>
-<h4>Using Request Control, create a rule e use this config:</h4>
-<img src="https://i.imgur.com/88YYMgW.png">
-<h4>Using Redirector, create a rule e use this config:</h4>
-<img src="https://i.imgur.com/36MNlQg.png">
-<h4>Using ModHeader, create a rule e use this config:</h4>
-<img src="https://i.imgur.com/AwCucFq.png">
-<h3>Reditect to new.reddit</h3>
-<h4>Using Request Control</h4>
-<img src="https://i.imgur.com/iIYMbM3.png">
-<h4>Using Redirector</h4>
-<img src="https://i.imgur.com/8o71Qai.png">
-<h4>Using ModHeader</h4>
-<img src="https://i.imgur.com/UAtNEZO.png">
-<h3>Others</h3>
-<h4>Use ModHeader to disable prompt and blur uses the modified original script, use at your own risk</h4>
-<pre>
-In Response headers, add key:
-Access-Control-Allow-Origin
-Paste in value:
-*
-
-Redirect:
-https:\/\/www.redditstatic.com/.*/xpromo-nsfw-blocking.*\.js
-To:
-https:\/\/example.com
-
-Redirect:
-https:\/\/www.redditstatic.com/.*/deprecated-content-client-js.*\.js
-To:
-https:\/\/strong-seaanemone.static.domains/script.js
-</pre>
-<img src="https://i.imgur.com/vLv0pSP.png">
-<h4>Userstyle</h4>
-<blockquote>    
-    <a href="https://userstyles.world/style/9384/minimal-reddit">Minimal Reddit</a>
-</blockquote>
-<h4>Userscript</h4>
-<blockquote><a href="https://greasyfork.org/pt-BR/scripts/478969-reddit-replace-player-with-videojs">Reddit Replace Player with VideoJS</a></blockquote>
-<link rel="stylesheet" href="userscript/style.css" >
