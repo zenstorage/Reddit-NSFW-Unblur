@@ -1,0 +1,13 @@
+[Adblock Plus 2.0]
+! Title: Reddit NSFW Unblock - ABP syntax
+! Description: Removes NSFW blocking on Reddit - Not autounblur
+! Last modified: 2024-07-07
+! Version: 1.0
+
+! Reddit - Block loader of NSFW modal
+||www.redditstatic.com/shreddit/*/xpromo-nsfw-blocking-modal*.js$script,domain=reddit.com
+
+! Hide prompt in single post, backdrop overlay, modal
+reddit.com##.prompt
+reddit.com##.bg-scrim
+reddit.com##.overlay

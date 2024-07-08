@@ -1,0 +1,18 @@
+! Title: Reddit NSFW Unblock - uBO syntax
+! Description: Removes NSFW blocking on Reddit
+! Last modified: 2024-07-07
+! Version: 1.0
+
+! Block loader of NSFW modal
+||www.redditstatic.com/shreddit/*/xpromo-nsfw-blocking-modal*.js$script,domain=reddit.com
+
+! Unblur
+reddit.com##+js(ra, mode, shreddit-blurred-container[mode]:has([slot="revealed"].h-full), complete stay)
+
+! Hide prompt in single post, backdrop overlay
+reddit.com##.prompt
+reddit.com##.bg-scrim
+reddit.com##.overlay
+
+! Remove blur, restore pointer events, display
+reddit.com##.blurred:style(filter: unset !important; background: unset !important;pointer-events: unset !important;display: unset !important;)
