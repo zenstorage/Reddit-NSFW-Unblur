@@ -44,7 +44,7 @@
 <h2>Alternative Methods</h2>
 <h4>Adblock filters (ABP syntax does not have a snippet to autoblur)</h4>
 <blockquote>
-    <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/ublock.txt">uBlock Origin syntax</a> (<a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/brave.txt">for Brave</a>)
+    <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/ublock.txt">uBlock Origin syntax</a> (<a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/adguard.txt">for Brave</a>)
     <br>
     <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/abp.txt">Adguard syntax</a>
     <br>
