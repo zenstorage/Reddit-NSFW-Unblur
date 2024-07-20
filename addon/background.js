@@ -9,7 +9,7 @@ function unblockNSFW(details) {
             runAt: 'document_start',
         });
     }
-    if (details.url.includes('xpromo-nsfw-blocking-modal-desktop')) {
+    if (details.url.includes('nsfw-blocking')) {
         return { cancel: true };
     }
 }
