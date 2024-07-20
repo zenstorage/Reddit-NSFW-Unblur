@@ -6,6 +6,7 @@
 
 body {
     background-color: #1f1b19;
+    /* background-color: red; */
     color: #d1c2b7;
     font-family: system-ui, sans-serif;
     font-size: 28px;
@@ -26,7 +27,7 @@ body {
 
 #status {
     padding: 10px;
-    width: 180px;
+    width: 100%;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.03);
     &::before {
@@ -69,6 +70,8 @@ body {
     padding: 10px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
     --slider-height: 1.4rem;
     --slider-width: 2.4rem;
@@ -81,7 +84,9 @@ body {
 
     & > label {
         display: flex;
-        justify-content: start;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5em;
         cursor: pointer;
         user-select: none;
         & input {
@@ -96,8 +101,7 @@ body {
             }
         }
         & .slider-label {
-            flex-grow: 1;
-            text-align: center;
+            width: 7rem;
         }
         & .slider {
             position: relative;
