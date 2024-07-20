@@ -1,0 +1,18 @@
+! Title: Reddit NSFW Unblock - Adguard syntax
+! Description: Removes NSFW blocking on Reddit
+! Last modified: 2024-14-07
+! Version: 1.0
+
+! Reddit - Block loader of nsfw modal
+||www.redditstatic.com/shreddit/*/xpromo-nsfw-blocking-modal*.js$script,domain=reddit.com
+
+! Reddit - Hide prompt in single post, backdrop overlay
+reddit.com##.prompt
+reddit.com##.bg-scrim
+reddit.com##.overlay
+
+! Reddit - Set revealed removing mode
+reddit.com#%#//scriptlet('remove-attr', 'mode', 'shreddit-blurred-container[mode]:has([slot="revealed"])', 'complete stay')
+
+! Reddit - Remove blur, backdrop...
+reddit.com#$#.blurred {filter: unset !important; background: unset !important; pointer-events: unset !important; display: unset !important;}
