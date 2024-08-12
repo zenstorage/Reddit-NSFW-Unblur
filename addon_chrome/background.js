@@ -3,7 +3,7 @@ const rule = {
     'priority': 1,
     'action': { 'type': 'block' },
     'condition': {
-        'urlFilter': 'nsfw-blocking',
+        'urlFilter': 'blocking-modal',
         'resourceTypes': ['script'],
     },
 };

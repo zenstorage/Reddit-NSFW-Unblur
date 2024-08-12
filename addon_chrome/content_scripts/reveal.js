@@ -33,7 +33,7 @@ function reveal(element) {
         const style = document.createElement('style');
         style.innerHTML = `.overlay, .bg-scrim { display: none !important; } .h-\\[88px\\] { height: max-content !important; } .inner {display: unset !important; pointer-events: auto !important; background: none !important; filter: none !important; }`;
         shadowRoot.appendChild(style);
-        blurredSlot.name = 'revealed';
+        blurredSlot.setAttribute('name', 'revealed');
     }
 }
 

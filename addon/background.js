@@ -1,17 +1,9 @@
 // Filter for the webRequest.onBeforeRequest event
-const unblockNSFWFilter = { urls: ['<all_urls>'], types: ['script'] };
+const unblockNSFWFilter = { urls: ['https://www.redditstatic.com/*blocking-modal*'], types: ['script'] };
 
 // Unblock NSFW
 function unblockNSFW(details) {
-    if (details.url.includes('shell')) {
-        browser.tabs.executeScript(details.tabId, {
-            file: '/content_scripts/reveal.js',
-            runAt: 'document_start',
-        });
-    }
-    if (details.url.includes('nsfw-blocking')) {
-        return { cancel: true };
-    }
+    return { cancel: true };
 }
 
 // Request toggle
