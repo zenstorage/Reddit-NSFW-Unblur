@@ -5,54 +5,47 @@
     <h1 align="center">Reddit NSFW Unblur</h1>
     <img width="50%" src="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/assets/before-addon.png"><img width="50%" src="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/assets/after-addon.png">
 </div>
-<h2>Installation</h2>
-<h2>Browser Extension</h2>
-<p>Only for Firefox</p>
-<p>
-    <a href="https://addons.mozilla.org/pt-BR/firefox/addon/reddit-nsfw-spoiler-unblur/">
-    Firefox Addon
-    </a>
-</p>
-<h2>Userscript</h2>
-<p>First install a userscript manager:</p>
-<h4>Firefox:</h4>
-<blockquote>
-    <a href="https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/" >
-    Tampermonkey
-    </a>
-    <br>
-    <a href="https://addons.mozilla.org/pt-BR/firefox/addon/violentmonkey/" >
-    Violentmonkey
-    </a>
-    <br>
-    <a href="https://addons.mozilla.org/pt-BR/firefox/addon/firemonkey/" >
-    Firemonkey
-    </a>
-</blockquote>
-<h4>Chrome:</h4>
-<blockquote>
-    <a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" >
-    Tampermonkey
-    </a>
-    <br>
-    <a href="https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag" >
-    Violentmonkey
-    </a>
-</blockquote>
-<p>Then install userscript:</p>
-<a href="https://greasyfork.org/scripts/485608">Reddit NSFW Unblur</a>
-<h2>Alternative Methods</h2>
-<h4>Adblock filters (ABP syntax does not have a snippet to autoblur)</h4>
-<blockquote>
-    <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/ublock.txt">uBlock Origin syntax</a> (<a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/adguard.txt">for Brave</a>)
-    <br>
-    <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/abp.txt">Adguard syntax</a>
-    <br>
-    <a href="https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/abp.txt">Adblock Plus(ABP) syntax (Adblock Plus, Vivaldi, etc...)</a>
-</blockquote>
-<h4>uBlock Origin</h4>
-<p>Add to tab <b>My Filters:</b></p>
-<pre>
+
+# Installation
+
+## Browser Extension
+
+Only for Firefox
+
+[Firefox Addon](https://addons.mozilla.org/pt-BR/firefox/addon/reddit-nsfw-spoiler-unblur/)
+
+## Userscript
+
+First install a userscript manager:
+
+### Firefox:
+
+> [Tampermonkey](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/)  
+> [Violentmonkey](https://addons.mozilla.org/pt-BR/firefox/addon/violentmonkey/)  
+> [Firemonkey](https://addons.mozilla.org/pt-BR/firefox/addon/firemonkey/)
+
+### Chrome:
+
+> [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)  
+> [Violentmonkey](https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag)
+
+Then install userscript:
+
+[Reddit NSFW Unblur](https://greasyfork.org/scripts/485608)
+
+Alternative Methods
+-------------------
+
+### Adblock filters (ABP syntax does not have a snippet to autoblur)
+
+> [uBlock Origin syntax](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/ublock.txt) ([for Brave](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/adguard.txt))  
+> [Adguard syntax](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/abp.txt)  
+> [Adblock Plus(ABP) syntax (Adblock Plus, Vivaldi, etc...)](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/abp.txt)
+
+### uBlock Origin
+
+Add to tab ***My Filters:*** 
+```adb
 ! Reddit - Block loader of nsfw modal
 ||www.redditstatic.com/shreddit/*/xpromo-nsfw-blocking-modal*.js$script,domain=reddit.com
 ! Reddit - Hide prompt in single post, backdrop overlay
@@ -63,18 +56,28 @@ reddit.com##.overlay
 reddit.com##shreddit-blurred-container[mode]:has([slot="revealed"]):remove-attr(mode)
 ! Reddit - Remove blur, backdrop...
 reddit.com##.blurred:style(filter: unset !important; background: unset !important; pointer-events: unset !important; display: unset !important;)
-</pre>
-<hr>
-<h4>Request Control</h4>
-<img src="https://i.imgur.com/2oVX1dD.png">
-<h4>Redirector</h4>
-<p>Add to you rules:</p>
-<img src="https://i.imgur.com/DYRQ2cj.png">
-<h4>ModHeader</h4>
-<p>Add to you rules:</p>
-<img src="https://i.imgur.com/RptYic2.png">
-<h4>Any other extension that can block the URL:</h4>
-<p>Match patterns:</p>
-<code>https://www.redditstatic.com/*xpromo-nsfw-blocking-modal-desktop*.js</code>
-<p>Regex:</p>
-<code>https:\/\/www\.redditstatic\.com\/.*xpromo-nsfw-blocking-modal-desktop.*\.js</code>
+```
+
+* * *
+
+### Request Control
+
+![](https://i.imgur.com/2oVX1dD.png)
+
+### Redirector
+
+![](https://i.imgur.com/DYRQ2cj.png)
+
+### ModHeader
+
+![](https://i.imgur.com/RptYic2.png)
+
+### Any other extension that can block the URL:
+
+Match patterns:
+
+`https://www.redditstatic.com/*xpromo-nsfw-blocking-modal-desktop*.js`
+
+Regex:
+
+`https:\/\/www\.redditstatic\.com\/.*xpromo-nsfw-blocking-modal-desktop.*\.js`
