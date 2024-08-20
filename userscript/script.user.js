@@ -103,8 +103,8 @@ observer.observe(document, {
     attributes: true,
 });
 
-document.addEventListener('DOMContentLoaded', e => {
-    let isShreddit = document.body.classList.contains('v2');
+setTimeout(() => {
+    let isShreddit = document.querySelector('shreddit-app');
     // Check if Shreddit
     if (!isShreddit) observer.disconnect();
-});
+}, 8000);
