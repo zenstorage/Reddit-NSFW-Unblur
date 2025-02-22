@@ -153,7 +153,7 @@
 }
 
 /* NSFW Thumbs */
-:is(shreddit-post[nsfw], [data-faceplate-tracking-context*='"nsfw":true']) faceplate-img {
+shreddit-pubsub-publisher img {
     filter: none !important;
 }
 :is(shreddit-post[nsfw], [data-faceplate-tracking-context*='"nsfw":true']) :is(a[href], shreddit-pubsub-publisher) + .absolute {
