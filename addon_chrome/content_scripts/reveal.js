@@ -1,8 +1,9 @@
-let nsfwAc, spoilerAc;
+let nsfwAc;
+let spoilerAc;
 const elementsDetected = new Set();
 
 // Get NSFW and Spoiler state
-chrome.storage.local.get('switchs', result => {
+chrome.storage.local.get("switchs", result => {
     const { switchs = {} } = result;
     const { nsfw = true, spoiler = false } = switchs;
 
@@ -17,35 +18,34 @@ chrome.storage.local.get('switchs', result => {
     });
 
     // Fix line-clamp and text-overflow
-    document.documentElement.insertAdjacentHTML('beforeend', '<style> [slot="revealed"] > [class*="line-clamp"] { display: flex; flex-direction: column; gap: 1rem; } </style>');
+    document.documentElement.insertAdjacentHTML("beforeend", '<style> [slot="revealed"] > [class*="line-clamp"] { display: flex; flex-direction: column; gap: 1rem; } </style>');
 });
 
 // Reveal NSFW |func (only for xpromo-nsfw-blocking-container and shreddit-blurred-container)
 function reveal(element) {
-    const shadowRoot = element.shadowRoot,
-        inner = shadowRoot.querySelector('.inner'),
-        blurredSlot = shadowRoot.querySelector('slot[name="blurred"]');
+    const shadowRoot = element.shadowRoot;
+    const blurredSlot = shadowRoot.querySelector('slot[name="blurred"]');
 
     // If have prompt to open app, remove it, else remove only blur
-    if (element.matches('xpromo-nsfw-blocking-container')) {
-        shadowRoot.querySelector('.prompt').remove();
-    } else if ((element.getAttribute('reason') === 'nsfw' && nsfwAc) || (element.getAttribute('reason') === 'spoiler' && spoilerAc)) {
-        const style = document.createElement('style');
-        style.innerHTML = `.overlay, .bg-scrim { display: none !important; } .h-\\[88px\\] { height: max-content !important; } .inner {display: unset !important; pointer-events: auto !important; background: none !important; filter: none !important; }`;
+    if (element.matches("xpromo-nsfw-blocking-container")) {
+        shadowRoot.querySelector(".prompt").remove();
+    } else if ((element.getAttribute("reason") === "nsfw" && nsfwAc) || (element.getAttribute("reason") === "spoiler" && spoilerAc)) {
+        const style = document.createElement("style");
+        style.innerHTML = '.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"] { display: none !important; } .h-\\[88px\\] { height: max-content !important; } .inner {display: unset !important; pointer-events: auto !important; background: none !important; filter: none !important; } body {pointer-events: auto !important; overflow: auto !important;}';
         shadowRoot.appendChild(style);
-        blurredSlot.setAttribute('name', 'revealed');
+        blurredSlot.setAttribute("name", "revealed");
     }
 }
 
 // Mutation observer handler
 function mutationHandler(mutation) {
-    const targets = mutation.target.querySelectorAll('xpromo-nsfw-blocking-container, shreddit-blurred-container');
-    targets.forEach(target => {
-        if (target.shadowRoot && target.shadowRoot.innerHTML !== '' && !elementsDetected.has(target)) {
+    const targets = mutation.target.querySelectorAll("xpromo-nsfw-blocking-container, shreddit-blurred-container");
+    for (const target of targets) {
+        if (target.shadowRoot && target.shadowRoot.innerHTML !== "" && !elementsDetected.has(target)) {
             elementsDetected.add(target);
             reveal(target);
         }
-    });
+    }
 }
 
 // Callback for MutationObserver
