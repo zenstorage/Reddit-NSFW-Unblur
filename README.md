@@ -54,27 +54,3 @@ www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body 
 www.reddit.com##.blurred:style(filter: unset !important; background: unset !important;pointer-events: unset !important;display: unset !important;)
 www.reddit.com##body:style(pointer-events: auto !important; overflow: auto !important;)
 ```
-
-* * *
-
-### Request Control
-
-![](https://i.imgur.com/2oVX1dD.png)
-
-### Redirector
-
-![](https://i.imgur.com/DYRQ2cj.png)
-
-### ModHeader
-
-![](https://i.imgur.com/RptYic2.png)
-
-### Any other extension that can block the URL:
-
-Match patterns:
-
-`https://www.redditstatic.com/*xpromo-nsfw-blocking-modal-desktop*.js`
-
-Regex:
-
-`https:\/\/www\.redditstatic\.com\/.*xpromo-nsfw-blocking-modal-desktop.*\.js`
