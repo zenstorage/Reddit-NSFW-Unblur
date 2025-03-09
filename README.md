@@ -46,16 +46,13 @@ Alternative Methods
 
 Add to tab ***My Filters:*** 
 ```adb
-! Reddit - Block loader of nsfw modal
-||www.redditstatic.com/shreddit/*/xpromo-nsfw-blocking-modal*.js$script,domain=reddit.com
+! Reddit - Set revealed removing mode
+www.reddit.com##shreddit-blurred-container[mode]:has([slot="revealed"]):remove-attr(mode)
 ! Reddit - Hide prompt in single post, backdrop overlay
-reddit.com##.prompt
-reddit.com##.bg-scrim
-reddit.com##.overlay
-! Reddit - Set revealed removing mode attr
-reddit.com##shreddit-blurred-container[mode]:has([slot="revealed"]):remove-attr(mode)
-! Reddit - Remove blur, backdrop...
-reddit.com##.blurred:style(filter: unset !important; background: unset !important; pointer-events: unset !important; display: unset !important;)
+www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"]
+! Remove blur, restore pointer events, etc...
+www.reddit.com##.blurred:style(filter: unset !important; background: unset !important;pointer-events: unset !important;display: unset !important;)
+www.reddit.com##body:style(pointer-events: auto !important; overflow: auto !important;)
 ```
 
 * * *
