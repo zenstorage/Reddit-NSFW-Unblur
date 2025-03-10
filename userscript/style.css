@@ -161,7 +161,7 @@ shreddit-pubsub-publisher img {
 }
 
 /* If status is ON */
-body.v2 {
+body {
     overflow: auto !important;
     pointer-events: auto !important;
 }
