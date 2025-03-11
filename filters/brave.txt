@@ -1,7 +1,7 @@
 ! Title: Reddit NSFW Unblock - uBO syntax
 ! Description: Removes NSFW blocking on Reddit
 ! Last modified: 2024-07-07
-! Version: 1.1
+! Version: 1.2
 
 www.reddit.com##+js(ra, mode, shreddit-blurred-container[mode]:has([slot="revealed"].h-full), complete stay)
 

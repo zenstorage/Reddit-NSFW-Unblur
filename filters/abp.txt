@@ -2,6 +2,6 @@
 ! Title: Reddit NSFW Unblock - ABP syntax
 ! Description: Removes NSFW blocking on Reddit - Not autounblur
 ! Last modified: 2024-07-07
-! Version: 1.1
+! Version: 1.2
 
 www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"], #nsfw-qr-dialog
