@@ -169,6 +169,6 @@ body {
     filter: blur(0) !important;
 }
 
-.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"] {
+.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"], #nsfw-qr-dialog {
     display: none !important;
 }
