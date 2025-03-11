@@ -4,5 +4,4 @@
 ! Last modified: 2024-07-07
 ! Version: 1.1
 
-! Reddit - Hide prompt in single post, backdrop overlay
-www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"]
+www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"], #nsfw-qr-dialog

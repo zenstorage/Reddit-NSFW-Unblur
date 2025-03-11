@@ -3,12 +3,9 @@
 ! Last modified: 2024-07-07
 ! Version: 1.1
 
-! Reddit - Set revealed removing mode
 www.reddit.com##+js(ra, mode, shreddit-blurred-container[mode]:has([slot="revealed"].h-full), complete stay)
 
-! Reddit - Hide prompt in single post, backdrop overlay
-www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"]
+www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"], #nsfw-qr-dialog
 
-! Remove blur, restore pointer events, etc...
 www.reddit.com##.blurred:style(filter: unset !important; background: unset !important;pointer-events: unset !important;display: unset !important;)
 www.reddit.com##body:style(pointer-events: auto !important; overflow: auto !important;)
