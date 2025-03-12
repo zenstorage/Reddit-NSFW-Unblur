@@ -39,7 +39,7 @@ Alternative Methods
 ### Adblock filters (ABP syntax does not have a snippet to autoblur)
 
 > [uBlock Origin syntax](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/ublock.txt) 
-> [uBO syntax for Brave](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/brave.txt)) 
+> [uBO syntax for Brave](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/brave.txt)
 > [Adguard syntax](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/adguard.txt)  
 > [Adblock Plus(ABP) syntax (Adblock Plus, Vivaldi, etc...)](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/abp.txt)
 
