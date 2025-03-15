@@ -36,7 +36,7 @@ Then install userscript:
 Alternative Methods
 -------------------
 
-### Adblock filters (ABP syntax does not have a snippet to autoblur/remove scroll block)
+### Adblock filters (ABP is instable)
 
 > 1. [uBlock Origin or Brave](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/ublock.txt)  
 > 2. [Adguard](https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/adguard.txt)  
