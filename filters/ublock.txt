@@ -14,3 +14,6 @@ www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, #nsfw
 
 ! Reddit - Remove scroll/click block
 www.reddit.com##body:style(pointer-events: auto !important; overflow: auto !important;)
+
+! Reddit - Show nsfw results in search
+www.reddit.com##+js(set-cookie, over18, true, reload, 1)
