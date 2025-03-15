@@ -1,11 +1,16 @@
 ! Title: Reddit NSFW Unblock - uBO syntax
 ! Description: Removes NSFW blocking on Reddit
 ! Last modified: 2024-07-07
-! Version: 1.2
+! Version: 1.3
 
-www.reddit.com##shreddit-blurred-container[mode]:has([slot="revealed"]):remove-attr(mode)
+! Reddit - Set revealed
+www.reddit.com##+js(trusted-set, HTMLElement.prototype.__blurred, { value: "false" })
 
-www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"], #nsfw-qr-dialog
+! Reddit - Prevent remove revealed
+www.reddit.com##+js(trusted-suppress-native-method, Element.prototype.querySelector, '"div[slot="revealed"]"', prevent)
 
-www.reddit.com##.blurred:style(filter: unset !important; background: unset !important;pointer-events: unset !important;display: unset !important;)
+! Reddit - Hide prompt in single post, backdrop overlay, etc...
+www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, #nsfw-qr-dialog, body > [style*="blur(4px)"]
+
+! Reddit - Remove scroll/click block
 www.reddit.com##body:style(pointer-events: auto !important; overflow: auto !important;)

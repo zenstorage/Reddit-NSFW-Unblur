@@ -4,4 +4,14 @@
 ! Last modified: 2024-07-07
 ! Version: 1.2
 
-www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, body > [style*="blur(4px)"], #nsfw-qr-dialog
+! Reddit - Set revealed
+www.reddit.com#$#override-property-read HTMLElement.prototype.__blurred false
+
+! Reddit - Prevent remove revealed
+www.reddit.com#$#prevent-listener track-event nsfw_blur
+
+! Reddit - Hide prompt in single post, backdrop overlay, etc...
+www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, #nsfw-qr-dialog, body > [style*="blur(4px)"]
+
+! Reddit - Remove scroll/click block(Instable)
+www.reddit.com#$#override-property-read document.body.style.pointerEvents undefined
