@@ -4,10 +4,10 @@
 ! Version: 1.2
 
 ! Reddit - Set revealed
-www.reddit.com#%#//scriptlet('trusted-set', 'HTMLElement.prototype.__blurred', '{ value: "false" }')
+www.reddit.com#%#//scriptlet('trusted-set-constant', 'HTMLElement.prototype.__blurred', 'false')    
 
 ! Reddit - Prevent remove revealed
-www.reddit.com#%#//scriptlet('trusted-suppress-native-method', 'Element.prototype.querySelector', '"div[slot="revealed"]"', 'prevent')
+www.reddit.com#%#//scriptlet('trusted-suppress-native-method', 'Node.prototype.removeChild', '{ "slot": "revealed" }', 'prevent')
 
 ! Reddit - Hide prompt in single post, backdrop overlay, etc...
 www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, #nsfw-qr-dialog, body > [style*="blur(4px)"]
