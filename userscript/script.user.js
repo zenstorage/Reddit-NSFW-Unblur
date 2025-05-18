@@ -6,9 +6,11 @@
 // @grant           GM_addElement
 // @grant           GM_setValue
 // @grant           GM_getValue
+// @grant           GM_getResourceURL
+// @resource        style https://zenstorage.github.io/Reddit-NSFW-Unblur/userscript/style.css
 // @run-at          document-body
 // @noframes
-// @version         2.4.2
+// @version         2.4.3
 // @icon            https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/assets/icon.png
 // @author          hdyzen
 // @description     Unblur nsfw in Shreddit
@@ -28,7 +30,7 @@ let styleLoaded = false;
 // Styles link
 const styleM = GM_addElement(document.head, "link", {
     rel: "stylesheet",
-    href: "https://zenstorage.github.io/Reddit-NSFW-Unblur/userscript/style.css",
+    href: GM_getResourceURL("style"),
 });
 styleM.onload = () => {
     styleLoaded = true;
@@ -97,8 +99,9 @@ observer.observe(document, {
     attributes: true,
 });
 
-setTimeout(() => {
+window.addEventListener("load", () => {
     const isShreddit = document.querySelector("shreddit-app");
     // Check if Shreddit
     if (!isShreddit) observer.disconnect();
-}, 8000);
+    console.log("Shreddit");
+});
