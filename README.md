@@ -53,7 +53,7 @@ Alternative Methods
 Add to ***My Filters:*** 
 ```adb
 ! Reddit - Set revealed
-www.reddit.com##+js(trusted-set, HTMLElement.prototype.__blurred, { value: "false" })
+||/deprecated-content-client-js-*.js$replace=/blurred=!0/blurred=!1/,domain=www.reddit.com
 ! Reddit - Prevent remove revealed
 www.reddit.com##+js(trusted-suppress-native-method, Element.prototype.querySelector, '"div[slot="revealed"]"', prevent)
 ! Reddit - Hide prompt in single post, backdrop overlay, etc...
