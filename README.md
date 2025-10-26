@@ -61,3 +61,24 @@ www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, #nsfw
 ! Reddit - Remove scroll/click block
 www.reddit.com##body:style(pointer-events: auto !important; overflow: auto !important;)
 ```
+
+### Scriptlet
+For uBlock Origin, you also can use the scriptlet to unblur NSFW content.
+
+Add to ***My Filters***:
+```
+// Unblur NSFW and spoiler
+reddit.com##+js(rub, nsfw, spoiler)
+
+// Unblur only NSFW
+reddit.com##+js(rub, nsfw)
+
+// Unblur only spoiler
+reddit.com##+js(rub, spoiler)
+
+// Only remove block
+reddit.com##+js(rub)
+
+```
+
+And add the scriptlet to the `User Resources` section in uBlock Origin's advanced settings.
