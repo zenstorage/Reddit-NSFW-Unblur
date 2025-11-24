@@ -24,6 +24,6 @@ What alternatives have you tried or considered?
 
 ---
 
-## ➕ Additional context
+## Additional context
 
 Add any other relevant context or links here.
