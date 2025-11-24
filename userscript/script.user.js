@@ -1,19 +1,19 @@
 // ==UserScript==
-// @name            Reddit NSFW Unblur
+// @name            Reddit NSFW Unblur
 // @namespace       https://greasyfork.org/users/821661
-// @match           https://www.reddit.com/*
-// @match           https://sh.reddit.com/*
-// @grant           GM_setValue
-// @grant           GM_getValue
-// @grant           GM_addStyle
-// @run-at          document-start
+// @match           https://www.reddit.com/*
+// @match           https://sh.reddit.com/*
+// @grant           GM_setValue
+// @grant           GM_getValue
+// @grant           GM_addStyle
+// @run-at          document-start
 // @noframes
-// @version         3.0.0
-// @icon            https://cdn.jsdelivr.net/gh/zenstorage/Reddit-NSFW-Unblur/assets/icon.png
-// @author          hdyzen
-// @description     Unblur nsfw in Shreddit
-// @license         MIT
-// @homepage        https://github.com/zenstorage/Reddit-NSFW-Unblur
+// @version         3.0.3
+// @icon            https://cdn.jsdelivr.net/gh/zenstorage/Reddit-NSFW-Unblur/assets/icon.png
+// @author          hdyzen
+// @description     Unblur nsfw in Shreddit
+// @license         MIT
+// @homepage        https://github.com/zenstorage/Reddit-NSFW-Unblur
 // ==/UserScript==
 
 const CONFIG = {
@@ -34,14 +34,16 @@ if (CONFIG.STATE && CONFIG.UNBLUR_NSFW) {
     CONFIG.ON_ELEMENTS["shreddit-blurred-container[reason='nsfw']:not([is-richtext-content])"] = (el) => (el.blurred = false);
     CONFIG.ON_ELEMENTS["shreddit-blurred-container[reason='nsfw'][is-richtext-content]"] = (el) => el.replaceWith(el.querySelector("[property='schema:articleBody']"));
 }
-
 if (CONFIG.STATE && CONFIG.UNBLUR_SPOILER) {
     CONFIG.ON_ELEMENTS["shreddit-blurred-container[reason='spoiler']:not([is-richtext-content])"] = (el) => (el.blurred = false);
-    CONFIG.ON_ELEMENTS["shreddit-blurred-container[reason='spoiler'][is-richtext-content]"] = (el) => el.replaceWith(el.querySelector("[property='schema:articleBody']"));
+    CONFIG.ON_ELEMENTS["shreddit-blurred-container[reason='spoiler'][is-richtext-content]:not([mode='wrap'])"] = (el) =>
+        el.replaceWith(el.querySelector("[property='schema:articleBody']"));
+    CONFIG.ON_ELEMENTS["shreddit-blurred-container[reason='spoiler'][mode='wrap']"] = (el) => (el.blurred = false);
+    CONFIG.ON_ELEMENTS["shreddit-spoiler"] = (el) => (el.revealed = true);
 }
+CONFIG.CSS_SELECTOR = Object.keys(CONFIG.ON_ELEMENTS).join(",");
 
 const observer = new MutationObserver(mutationsHandler);
-
 observer.observe(document.documentElement, { childList: true, subtree: true });
 
 function mutationsHandler(mutations) {
@@ -56,7 +58,7 @@ function mutationsHandler(mutations) {
             if (node.nodeType !== Node.ELEMENT_NODE) continue;
             onElement(node);
 
-            node.querySelectorAll(Object.keys(CONFIG.ON_ELEMENTS)).forEach(onElement);
+            node.querySelectorAll(CONFIG.CSS_SELECTOR).forEach(onElement);
         }
     }
 }
@@ -183,9 +185,8 @@ function initToggles(navBar) {
     wrapper.appendChild(popupToggle);
     wrapper.appendChild(statusContainer);
 
-    popupToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        wrapper.classList.toggle("open");
+    wrapper.addEventListener("click", (e) => {
+        if (e.target.id === "unblur-toggles-wrapper-main" || e.target.id === "popup-toggle") wrapper.classList.toggle("open");
     });
 
     document.addEventListener("click", (e) => {
@@ -217,6 +218,7 @@ GM_addStyle(`
         justify-content: center;
         grid-column: -1;
         min-width: max-content;
+        user-select: none;
         &:hover {
             background-color: var(--button-color-background-hover);
         }
