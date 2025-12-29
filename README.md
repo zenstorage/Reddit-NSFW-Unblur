@@ -37,7 +37,9 @@ Alternative Methods
 -------------------
 
 ### Adblock filters (ABP is instable)
+
 ##### ⚠️ If you are using uBlock and are using an imported list, add to `trustedListPrefixes` the URL -> `https://raw.githubusercontent.com/zenstorage/Reddit-NSFW-Unblur/main/filters/ublock.txt`
+
 > 1. [uBlock Origin or Brave](https://subscribe.adblockplus.org/?location=https%3A%2F%2Fraw.githubusercontent.com%2Fzenstorage%2FReddit-NSFW-Unblur%2Fmain%2Ffilters%2Fublock.txt&title=Reddit-Unblur)
 > 2. [Adguard](https://subscribe.adblockplus.org/?location=https%3A%2F%2Fraw.githubusercontent.com%2Fzenstorage%2FReddit-NSFW-Unblur%2Fmain%2Ffilters%2Fadguard.txt&title=Reddit-Unblur)  
 > 3. [Adblock Plus (Instable)](https://subscribe.adblockplus.org/?location=https%3A%2F%2Fraw.githubusercontent.com%2Fzenstorage%2FReddit-NSFW-Unblur%2Fmain%2Ffilters%2Fabp.txt&title=Reddit-Unblur)
@@ -65,7 +67,7 @@ www.reddit.com##body[style]:remove-attr(style)
 ### Scriptlet
 For uBlock Origin, you also can use the scriptlet to unblur NSFW content.
 
-Add to ***My Filters***:
+Add to ***My Filters***, one of them:
 ```
 // Unblur NSFW and spoiler
 reddit.com##+js(rub, nsfw, spoiler)
@@ -78,7 +80,6 @@ reddit.com##+js(rub, spoiler)
 
 // Only remove block
 reddit.com##+js(rub)
-
 ```
 
-And add the scriptlet to the `User Resources` section in uBlock Origin's advanced settings.
+And add the scriptlet to the `User Resources` section in uBlock Origin's advanced settings: `https://cdn.jsdelivr.net/gh/zenstorage/Reddit-NSFW-Unblur/scriptlet/redditUnblock.js`
