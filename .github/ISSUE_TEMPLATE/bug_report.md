@@ -8,7 +8,7 @@ assignees: ''
 
 ## Describe the Bug
 
-A clear and concise description of what the bug is.
+A description of what the bug is.
 
 ### To Reproduce
 
@@ -29,7 +29,7 @@ If applicable, add screenshots to help explain your problem.
 
 ---
 
-## Technical Information (Crucial!)
+## Technical Information
 
 Please fill out the following information to help with debugging:
 

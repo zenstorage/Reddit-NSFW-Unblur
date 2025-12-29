@@ -13,7 +13,7 @@ www.reddit.com##+js(trusted-suppress-native-method, Node.prototype.removeChild, 
 www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, #nsfw-qr-dialog, body > [style*="blur(4px)"]
 
 ! Reddit - Remove scroll/click block
-www.reddit.com##body:style(pointer-events: auto !important; overflow: auto !important;)
+www.reddit.com##body[style]:remove-attr(style)
 
 ! Reddit - Show nsfw results in search
 www.reddit.com##+js(set-cookie, over18, true, reload, 1)
