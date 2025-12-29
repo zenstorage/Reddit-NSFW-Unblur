@@ -59,7 +59,7 @@ www.reddit.com##+js(trusted-suppress-native-method, Element.prototype.querySelec
 ! Reddit - Hide prompt in single post, backdrop overlay, etc...
 www.reddit.com##.prompt, .bg-scrim, .overlay, .viewInApp, #blocking-modal, #nsfw-qr-dialog, body > [style*="blur(4px)"]
 ! Reddit - Remove scroll/click block
-www.reddit.com##body:style(pointer-events: auto !important; overflow: auto !important;)
+www.reddit.com##body[style]:remove-attr(style)
 ```
 
 ### Scriptlet
