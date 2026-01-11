@@ -21,7 +21,7 @@ Steps to reproduce the behavior:
 
 ### Expected behavior
 
-A clear and concise description of what you expected the script to do.
+A description of expected the script to do.
 
 ### Screenshots
 

@@ -8,7 +8,7 @@ assignees: ''
 
 ## Feature Proposal
 
-Clearly describe the functionality you would like to see implemented.
+Describe the functionality you would like to see implemented.
 
 ### Why is this feature useful?
 
@@ -17,10 +17,6 @@ Explain the problem this new feature would solve or the value it would add for t
 ### Suggested Solution
 
 If you have a suggestion on how the functionality could be implemented (or how it should behave in the user interface), describe it here.
-
-### Alternatives
-
-What alternatives have you tried or considered?
 
 ---
 

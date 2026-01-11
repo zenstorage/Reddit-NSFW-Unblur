@@ -3,28 +3,30 @@ const toggleNsfw = document.getElementById("toggle-nsfw");
 const toggleSpoiler = document.getElementById("toggle-spoiler");
 const form = document.getElementById("selected-ops");
 
-function loadStoredSettings() {
-    browser.storage.local.get(["status", "switchs"], result => {
-        const { status = true } = result;
-        const { nsfw = true, spoiler = false } = result.switchs || {};
+async function loadStoredSettings() {
+	const PREFS = {
+		enabled: true,
+		nsfw: true,
+		spoiler: false,
+	};
+	const stored = await browser.storage.local.get(PREFS);
+	Object.assign(PREFS, stored);
 
-        toggle.checked = status;
-        toggleNsfw.checked = nsfw;
-        toggleSpoiler.checked = spoiler;
-    });
+	toggle.checked = PREFS.enabled;
+	toggleNsfw.checked = PREFS.nsfw;
+	toggleSpoiler.checked = PREFS.spoiler;
 }
 
 function saveStatus() {
-    browser.storage.local.set({ status: toggle.checked });
+	browser.storage.local.set({ enabled: toggle.checked });
 }
 
 function saveSwitches() {
-    browser.storage.local.set({
-        switchs: {
-            nsfw: toggleNsfw.checked,
-            spoiler: toggleSpoiler.checked,
-        },
-    });
+	browser.storage.local.set({
+		enabled: toggle.checked,
+		nsfw: toggleNsfw.checked,
+		spoiler: toggleSpoiler.checked,
+	});
 }
 
 toggle.addEventListener("click", saveStatus);
