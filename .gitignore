@@ -1,2 +1,4 @@
 # Dependencies
 /node_modules
+/addon/web-ext-artifacts
+/addon/build/
